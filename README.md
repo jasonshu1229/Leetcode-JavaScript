@@ -1,4 +1,4 @@
-# js-algorithm
+# js-leetcode
 JavaScript版本 leetcode
 
 ## 数组
