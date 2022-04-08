@@ -50,21 +50,18 @@ var preorderTraversal = function(root) {
     2. 找出递归的终止条件
     3. 写出递归函数的等价关系式，核心逻辑
 */
-function getNode(root, arr) {
-  // 递归的终止条件
-  if (!root) return;
-  // 把根节点放进arr
-  arr.push(root.val);
-
-  // 把左右树前序遍历结果放到arr中
-  getNode(root.left, arr);
-  getNode(root.right, arr);
-}
-
 var preorderTraversal = function (root) {
-  // 把 root 前序遍历结果放到 arr 中
-  let arr = [];
-  getNode(root, arr);
+  if (!root) return [];
 
-  return arr;
+  const preorder = (node, res) => {
+    if (!node) return; // // 递归的终止条件
+    res.push(node.val);
+    preorder(node.left, res);
+    preorder(node.right, res);
+  }
+  // 把 root 前序遍历结果放到 arr 中
+  let res = [];
+  preorder(root, res);
+
+  return res;
 };
