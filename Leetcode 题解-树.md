@@ -2,7 +2,7 @@
 <!-- GFM-TOC -->
 * [Leetcode 题解 - 树](#leetcode-题解---树)
     * [递归](#递归)
-        * [1. 树的高度](#1-树的高度)
+        * [1. 二叉树的最大深度](#1-二叉树的最大深度)
         * [2. 平衡树](#2-平衡树)
         * [3. 两节点的最长路径](#3-两节点的最长路径)
         * [4. 翻转树](#4-翻转树)
@@ -45,19 +45,94 @@
 
 ## 递归
 
-一棵树要么是空树，要么有两个指针，每个指针指向一棵树。树是一种递归结构，很多树的问题可以使用递归来处理。
+树是一种递归结构，很多树的问题可以使用递归（深度优先遍历DFS和广度优先遍历BFS）来处理。
 
-### 1. 树的高度
+### 1. 二叉树的最大深度
 
-104\. 树的高度 (简单)
+104\. 二叉树的最大深度 (简单)
 
-[Leetcode](https://leetcode.com/problems/maximum-depth-of-binary-tree/description/) / [力扣](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/description/)
+[Leetcode](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/) / [力扣](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/)
 
-```java
-public int maxDepth(TreeNode root) {
-    if (root == null) return 0;
-    return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
+```js
+var maxDepth = function(root) {
+  // BFS迭代
+  if (!root) return 0;
+  const queue = [];
+  queue.push(root);
+  const levels = 0; // 定义有多少层
+  while (queue.length) {
+    const size = queue.length; // 记住当前层有多少个节点
+    // 循环遍历每一层节点进行处理(for循环每次执行完，都代表当前层遍历完毕)
+    for (let i = 0; i < size; i++) { 
+      const cur = queue.shift();
+      if (cur.left) queue.push(cur.left);
+      if (cur.right) queue.push(cur.right);
+    }
+    levels++;
+  }
+  return levels;
+};
+```
+
+```js
+// DFS 前序遍历 递归
+const maxDepth = function(root) {
+  if (!root) return 0;
+  let res = 0;
+  const preorder = (node, curLevel) => {
+    if (!node) return;
+    res = Math.max(res, curLevel);
+    preorder(node.left, curLevel + 1);
+    preorder(node.right, curLevel + 1);
+  };
+
+  preorder(root, 1);
+  return res;
 }
+```
+
+## 层次遍历
+
+### 1. 二叉树的层序遍历
+
+102\. 二叉树的层序遍历 (中等)
+
+[Leetcode](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/) / [力扣](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
+
+```
+    3
+   / \
+  9   20
+      / \
+     15  7
+输入：root = [3,9,20,null,null,15,7]
+输出：[[3],[9,20],[15,7]]
+```
+ 
+思路：用队列保存每一层的节点，当处理每一层节点时，应该先从队列的队头拉出来，放进当前层级的结果集，
+然后找它下一层的左右节点，有的话直接放进队列，循环往复就能得到结果
+
+```js
+var levelOrder = function(root) {
+  if (!root) return [];
+
+  // 队列，先进先出
+  const res = [], queue = [];
+  queue.push(root);
+  while (queue.length) {
+    const levelNodes = []; // 新建一个存储当前层结点的数组
+    const size = queue.length; // 每轮循环遍历处理一层的节点
+    for (let i = 0; i < size; i++) {
+      const cur = queue.shift();
+      levelNodes.push(cur.val);
+      // 将遍历处理的节点的左右节点入队，等待后续的处理
+      if (cur.left) queue.push(cur.left);
+      if (cur.right) queue.push(cur.right);
+    }
+    res.push(levelNodes)
+  }
+  return res;
+};
 ```
 
 ## 前中后序遍历
