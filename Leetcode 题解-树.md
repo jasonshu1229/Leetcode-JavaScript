@@ -91,6 +91,46 @@ const maxDepth = function(root) {
 }
 ```
 
+### 1. 二叉树的最大深度
+
+543\. 二叉树的直径 (简单)
+
+[Leetcode](https://leetcode-cn.com/problems/diameter-of-binary-tree/) / [力扣](https://leetcode-cn.com/problems/diameter-of-binary-tree/)
+
+
+```
+给定二叉树
+          1
+         / \
+        2   3
+       / \     
+      4   5    
+返回 3, 它的长度是路径 [4,2,1,3] 或者 [5,2,1,3]。
+
+注意：两结点之间的路径长度是以它们之间边的数目表示。
+```
+
+思路：求每一个节点的左右子树的最大深度，然后左右子树最大深度之和的那个长度就是二叉树的直径。（和104题求二叉树的最大深度有关联）
+
+```js
+var diameterOfBinaryTree = function(root) {
+  // 采用的是先 后序迭代二叉树的最大深度，再求左右子树最大深度之和
+  if (!root) return 0
+
+  let res = 0
+  const maxDepth = (node) => {
+      if (!node) return 0
+      const leftMaxDepth = maxDepth(node.left)
+      const rightMaxDepth = maxDepth(node.right)
+      res = Math.max(res, leftMaxDepth + rightMaxDepth)
+      return Math.max(leftMaxDepth, rightMaxDepth) + 1
+  }
+
+  maxDepth(root)
+  return res
+};
+```
+
 ## 层次遍历
 
 ### 1. 二叉树的层序遍历
