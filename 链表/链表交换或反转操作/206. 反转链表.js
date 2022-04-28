@@ -22,20 +22,18 @@
  * @param {ListNode} head 
  * @return {ListNode}
  */
-var reverseList = function(head) {
+var r = function(head) {
   if (!head) return head;
 
   let prev = null;
   let cur = head;
-
   // 每次遍历cur到节点，都讲 cur的next指向 pre和cur都前进一位
   // 由于执行 while 循环体的原因 cur 又向后走了一个单位，所以 cur 最后指向的是 null
   while (cur) {
-      let temNextNode = cur.next;
+      let next = cur.next;
       cur.next = prev;
       prev = cur;
-      cur = temNextNode;
+      cur = next;
   }
-
   return prev;
 };

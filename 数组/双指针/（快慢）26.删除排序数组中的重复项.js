@@ -8,37 +8,20 @@
   输出：5, nums = [0,1,2,3,4]
   解释：函数应该返回新的长度 5 ， 并且原数组 nums 的前五个元素被修改为 0, 1, 2, 3, 4 。不需要考虑数组中超出新长度后面的元素。
 */
-
-// 写法一
 var removeDuplicates = function (nums) {
   // 快慢指针
-  // 快指针用于遍历数组，慢指针用于保存数组中每个不同元素首次出现的位置下标
-  // 遍历结束后，慢指针就是数组元素的个数
-  if (nums.length === 1) return 1;
-  let slow = 0;
-  for (let fast = 0; fast < nums.length; fast++) {
-    if (nums[fast] !== nums[fast - 1]) {
-      nums[slow] = nums[fast];
+  if (nums.length == 0) return 0;
+
+  let slow = 0, fast = 1;
+  while(fast < nums.length) {
+    if (nums[fast] !== nums[slow]) {
       slow++;
+      nums[slow] = nums[fast];
     }
+    fast++
   }
 
-  return slow;
-};
-
-// 写法二
-var removeDuplicates = function (nums) {
-  let p = 0;
-  let q = 1;
-  if (nums == null || nums.length == 0) return 0;
-  while (q < nums.length) {
-    if (nums[p] !== nums[q]) {
-      nums[p + 1] = nums[q];
-      p++;
-    }
-    q++;
-  }
-  return p + 1;
+  return slow + 1;
 };
 
 const result = removeDuplicates([0, 0, 1, 1, 1, 2, 2, 3, 3, 4]);

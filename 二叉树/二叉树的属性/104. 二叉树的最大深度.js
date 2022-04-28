@@ -66,6 +66,7 @@ var maxDepth = function(root) {
 }
 
 // DFS 前序遍历 递归
+// 思路：从上到下遍历，最大深度即为左子树or右子树的最大深度（取最大值）
 const maxDepth = function(root) {
   if (!root) return 0;
   let res = 0;
@@ -78,4 +79,18 @@ const maxDepth = function(root) {
 
   preorder(root, 1);
   return res;
+}
+
+/*
+  思路：后序遍历，自下而上，求出左右子树的最大深度；
+      取它们俩中的最大值，再加上根节点的depth 1
+  注意：理解递归函数的意义，以及最大深度是指自下而上遍历时，左右子树的最大值 + 根节点的深度(1)
+*/
+// 求以 root 为根节点的二叉树的最大深度
+var maxDepth = function(root) {
+  if (root === null) return 0;
+  const leftMaxDepth = maxDepth(root.left);
+  const rightMaxDepth = maxDepth(root.right);
+
+  return Math.max(leftMaxDepth, rightMaxDepth) + 1;
 }
