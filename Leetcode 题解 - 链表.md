@@ -7,7 +7,7 @@
     - [3. 删除排序链表中的重复元素](#3-删除排序链表中的重复元素)
     - [4. 删除排序链表中的重复元素 II](#4-删除排序链表中的重复元素-ii)
     - [5. 删除链表的倒数第 N 个结点](#5-删除链表的倒数第-n-个结点)
-<!-- GFM-TOC -->
+    <!-- GFM-TOC -->
 
 
 ## 链表删除操作
@@ -133,11 +133,14 @@ var deleteDuplicates = function (head) {
 
 ### 5. 删除链表的倒数第 N 个结点
 
-19\. 删除链表的倒数第 N 个结点 (中等)
+19\. 删除链表的倒数第 N 个结点 (中等) `【top100】`
 
 [Leetcode](https://leetcode.cn/problems/remove-nth-node-from-end-of-list/) / [力扣](https://leetcode.cn/problems/remove-nth-node-from-end-of-list/)
 
 思路：未知具体节点时，采用快慢指针法<br>
+
+步骤：
+
 1. 快指针先走n个单位，然后慢指针和快指针同时向前移动一个单位<br>
 2. 慢指针指向的下一节点，即为要删除的节点
 
