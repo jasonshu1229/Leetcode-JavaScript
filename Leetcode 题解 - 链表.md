@@ -2,13 +2,20 @@
 <!-- GFM-TOC -->
 - [Leetcode 题解 - 链表](#leetcode-题解---链表)
   - [链表删除操作](#链表删除操作)
+  
     - [1. 移除链表元素](#1-移除链表元素)
     - [2. 删除链表中的节点](#2-删除链表中的节点)
     - [3. 删除排序链表中的重复元素](#3-删除排序链表中的重复元素)
     - [4. 删除排序链表中的重复元素 II](#4-删除排序链表中的重复元素-ii)
-    - [5. 删除链表的倒数第 N 个结点](#5-删除链表的倒数第-n-个结点)
+    - [5. 链表的中间结点 - 快慢指针](#5-链表的中间结点) - 快慢指针
+    - [6. 删除链表的倒数第 N 个结点](#6-删除链表的倒数第-n-个结点) - 快慢指针
+  
+  - [链表的环](#链表的环)
+  
+    - [1. 环形链表](#1-环形链表) - 快慢指针
+    - [2. 环形链表 II](#2-环形链表 II) - 快慢指针
+  
     <!-- GFM-TOC -->
-
 
 ## 链表删除操作
 
@@ -131,9 +138,30 @@ var deleteDuplicates = function (head) {
 };
 ```
 
-### 5. 删除链表的倒数第 N 个结点
+### 5. 链表的中间结点
 
-19\. 删除链表的倒数第 N 个结点 (中等) `【top100】`
+876\. 链表的中间结点 (简单)
+
+[Leetcode](https://leetcode.cn/problems/middle-of-the-linked-list/) / [力扣](https://leetcode.cn/problems/middle-of-the-linked-list/)
+
+给定一个头结点为 `head` 的非空单链表，返回链表的中间结点。如果有两个中间结点，则返回第二个中间结点。
+
+```js
+var middleNode = function(head) {
+  if (!head || !head.next) return head;
+
+  let slow = head, fast = head;
+  while(fast && fast.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+  }
+  return slow;
+};
+```
+
+### 6. 删除链表的倒数第 N 个结点
+
+19&剑指021\. 删除链表的倒数第 N 个结点 (中等) **【top100】**
 
 [Leetcode](https://leetcode.cn/problems/remove-nth-node-from-end-of-list/) / [力扣](https://leetcode.cn/problems/remove-nth-node-from-end-of-list/)
 
@@ -163,3 +191,70 @@ var removeNthFromEnd = function (head, n) {
   return dummy.next;
 };
 ```
+
+## 链表的环
+
+### 1. 环形链表
+
+141\. 环形链表 (简单) **【top100】**
+
+[Leetcode](https://leetcode.cn/problems/linked-list-cycle/) / [力扣](https://leetcode.cn/problems/linked-list-cycle/)
+
+给你一个链表的头节点 `head` ，判断链表中是否有环。
+
+```js
+var hasCycle = function (head) {
+  // 判断环形链表时，采用双指针模拟追击法
+  // 慢指针每次走一个节点，快指针每次走两个节点，如果有环，则终会相遇；否则，则不会相遇
+  if (!head) return false;
+
+  let slow = head;
+  let fast = head.next;
+
+  while (slow !== fast && fast && fast.next) {
+    // 进入循环之后，定义快慢指针，出循环的边界条件是走到链表的 Null了，无路可走了。
+    slow = slow.next;
+    fast = fast.next.next;
+  }
+
+  return slow === fast;
+};
+```
+
+### 2. 环形链表 II
+
+141&剑指022\. 环形链表 II (中等) **【top100】**
+
+[Leetcode](https://leetcode.cn/problems/linked-list-cycle-ii/) / [力扣](https://leetcode.cn/problems/linked-list-cycle-ii/)
+
+给定一个链表的头节点  `head` ，返回链表开始入环的第一个节点。 *如果链表无环，则返回 `null`。*
+
+```js
+var detectCycle = function (head) {
+  if (head === null) return head;
+
+  let slow = head;
+  let fast = head;
+  let isCycle = false;
+
+  while (fast.next && fast.next.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+    if (slow === fast) {
+      isCycle = true;
+      break;
+    }
+  }
+
+  if (!isCycle) return null;
+
+  slow = head;
+  while (slow !== fast) {
+    slow = slow.next;
+    fast = fast.next;
+  }
+
+  return slow;
+};
+```
+
