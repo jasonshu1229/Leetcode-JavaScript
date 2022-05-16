@@ -17,9 +17,12 @@
 
 ## 数据结构相关
 
-- [数组](Leetcode%20题解-树.md)
-- [链表](Leetcode%20题解%20-%20链表.md)
+- [数组](Leetcode%20题解-数组.md)
+- [链表](Leetcode%20题解-链表.md)
 - [树](Leetcode%20题解-树.md)
 - [栈和队列](Leetcode%20题解%20-%20栈和队列.md)
 - [哈希表](Leetcode%20题解%20-%20哈希表.md)
 - [字符串](Leetcode%20题解%20-%20字符串.md)
+
+## 精选题单
+- [🔥LeetCode热题HOT100](LeetCode热题HOT100-题解.md)
