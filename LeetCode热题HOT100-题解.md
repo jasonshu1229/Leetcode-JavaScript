@@ -595,7 +595,7 @@ var combine = function(n, k) {
 - △：当前求和 > target，不能选下去了，返回。
 - ○：求和正好 == target，加入解集，并返回。
 
-![](![](https://tva1.sinaimg.cn/large/e6c9d24ely1h2d0db1m7hj21ax0jnwgk.jpg))
+![](https://tva1.sinaimg.cn/large/e6c9d24ely1h2d0db1m7hj21ax0jnwgk.jpg)
 
 思路：<br>
 1. 先写出转换成树形结构所有的解（不包含剪枝）<br>
