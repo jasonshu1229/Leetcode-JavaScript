@@ -21,7 +21,9 @@
   - [回溯算法](#回溯算法)
     - [1. 括号生成](#1-括号生成)
     - [2. 全排列](#2-全排列)
-    - [3. 组合](#3-组合)
+    - [3. 组合 & 剑指080](#3-组合--剑指080)
+    - [4. 组合总和（可重复使用）](#4-组合总和可重复使用)
+    - [5. 组合总和（不可重复使用）](#5-组合总和不可重复使用)
     <!-- GFM-TOC -->
 
 ## 数组
@@ -546,7 +548,7 @@ var permute = function(nums) {
 };
 ```
 
-### 3. 组合
+### 3. 组合 & 剑指080
 
 77\. 组合 (中等)
 
@@ -580,3 +582,86 @@ var combine = function(n, k) {
   return res;
 };
 ```
+
+### 4. 组合总和（可重复使用）
+
+39\. 组合总和 (中等)
+
+[Leetcode](https://leetcode.cn/problems/combination-sum/) / [力扣](https://leetcode.cn/problems/combination-sum/)
+
+**思路如图**
+
+- ×：当前组合和之前生成的组合重复了。
+- △：当前求和 > target，不能选下去了，返回。
+- ○：求和正好 == target，加入解集，并返回。
+
+![](![](https://tva1.sinaimg.cn/large/e6c9d24ely1h2d0db1m7hj21ax0jnwgk.jpg))
+
+思路：<br>
+1. 先写出转换成树形结构所有的解（不包含剪枝）<br>
+2. 写出剪枝的条件（本题中剪枝有两个条件）<br>
+  2.1 剪掉重复组合的元素：只需要让下次遍历的时候”子节点的值大于等于父节点的值“即让dfs里的startIndex从当前的i开始选取，基于本次的选择，这样下一次就不会选到本次选择同层左边的数了<br>
+  2.2 当前组合元素里的和 > target，不能选择下去了，需要返回<br>
+      当前组合元素里的和 == target，加入题解，需要返回
+
+```js
+var combinationSum = function(candidates, target) {
+  const res = [], combination = [];
+
+  const dfs = (start, target) => {
+    if (target < 0) return; // 组合目标和大于 target 应该结束当前递归并回溯
+    if (target == 0) {
+      res.push(combination.slice()); // 满足条件加入解集
+      return; // 结束当前递归并回溯
+    }
+    for (let i = start; i < candidates.length; i++) {
+      combination.push(candidates[i]);
+      dfs(i, target - candidates[i]);
+      combination.pop();
+    }
+  };
+  dfs(0, target);
+  return res;
+};
+```
+
+### 5. 组合总和（不可重复使用）
+
+40\. 组合总和 (中等)
+
+[Leetcode](https://leetcode.cn/problems/combination-sum-ii/) / [力扣](https://leetcode.cn/problems/combination-sum-ii/)
+
+注意：数组内元素不可重复使用<br>
+- 需要先将给定数组排序（将相同的元素放在一起，有利于后面的剪枝）
+- 增加一个剪枝条件相较于 lc 39题
+  ```js
+  // 为了保证数组元素的访问顺序，保证子节点要大于父节点，所以最好从初始化的下一个子节点开始比较
+      if (i > start && candidates[i] == candidates[i - 1]) continue;
+  ```
+
+```js
+var combinationSum2 = function(candidates, target) {
+  // 回溯 + 剪枝
+  const res = [], combination = [];
+  candidates.sort((a, b) => a - b); // 将相同的元素放在一起，有利于后面的剪枝
+
+  const dfs = (start, target) => {
+    if (target < 0) return;
+    if (target == 0) {
+      res.push(combination.slice());
+      return;
+    }
+
+    for (let i = start; i < candidates.length; i++) {
+      // 为了保证数组元素的访问顺序，保证子节点要大于父节点，所以最好从初始化的下一个子节点开始比较
+      if (i > start && candidates[i] == candidates[i - 1]) continue;
+      combination.push(candidates[i]);
+      dfs(i + 1, target - candidates[i]);
+      combination.pop();
+    }
+  };
+  dfs(0, target);
+  return res;
+};
+```
+
